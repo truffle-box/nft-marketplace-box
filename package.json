@@ -1,0 +1,36 @@
+{
+  "name": "optimism-box",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "installLocalOptimism": "git clone git@github.com:ethereum-optimism/optimism.git && cd optimism/ops && docker-compose pull",
+    "startLocalOptimism": "cd optimism/ops && docker-compose up",
+    "stopLocalOptimism": "cd optimism/ops && docker-compose down -v",
+    "checkLocalOptimismReady": "cd optimism/ops && scripts/wait-for-sequencer.sh && echo 'System is ready to accept transactions'",
+    "compile:evm": "truffle compile",
+    "compile:ovm": "truffle compile --config truffle-config.ovm.js",
+    "migrate:evm": "truffle migrate",
+    "migrate:ovm": "truffle migrate --skip-dry-run --config truffle-config.ovm.js --network $npm_config_network",
+    "test:evm": "truffle test",
+    "test:ovm": "truffle test --config truffle-config.ovm.js --network $npm_config_network"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/truffle-box/optimisim-box.git"
+  },
+  "keywords": [],
+  "author": "Faina Shalts <faina@trufflesuite.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/truffle-box/optimism-box/issues"
+  },
+  "homepage": "https://github.com/truffle-box/optimism-box#readme",
+  "devDependencies": {
+    "@eth-optimism/plugins": "^0.0.20",
+    "@truffle/hdwallet-provider": "^1.6.0",
+    "dotenv": "^8.2.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.6.0"
+  }
+}
