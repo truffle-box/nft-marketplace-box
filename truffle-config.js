@@ -6,7 +6,7 @@
  *
  * More information about configuration can be found at:
  *
- * trufflesuite.com/docs/advanced/configuration
+ * https://trufflesuite.com/docs/ganache/reference/ganache-settings/#configuring-truffle-to-connect-to-ganache
  *
  * To deploy via Infura you'll need a wallet provider (like @truffle/hdwallet-provider)
  * to sign your transactions before they're sent to a remote public node. Infura accounts
@@ -23,6 +23,7 @@
 require('dotenv').config();
 const kovanMnemonic = process.env["KOVAN_MNEMONIC"];
 const infuraKey = process.env["INFURA_KEY"];
+const mnemonic = 'test test test test test test test test test test test junk' // process.env["MNEMONIC"];
 
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 
