@@ -4,12 +4,26 @@ import Web3Modal from 'web3modal'
 import { create as ipfsHttpClient } from 'ipfs-http-client'
 import { useRouter } from 'next/router'
 
-const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
-
 import Marketplace from '../contracts/optimism-contracts/Marketplace.json'
 import BoredPetsNFT from '../contracts/optimism-contracts/BoredPetsNFT.json'
 // import Marketplace from '../contracts/ethereum-contracts/Marketplace.json'
 // import BoredPetsNFT from '../contracts/ethereum-contracts/BoredPetsNFT.json'
+
+const projectId = process.env["NEXT_PUBLIC_IPFS_KEY"];
+const projectSecret = process.env["NEXT_PUBLIC_IPFS_SECRET"];
+const auth =
+    'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+
+const client = ipfsHttpClient({
+    host: 'ipfs.infura.io',
+    port: 5001,
+    protocol: 'https',
+    headers: {
+        authorization: auth,
+    },
+});
+
+const IPFSGateway = `https://${process.env["NEXT_PUBLIC_IPFS_SUBDOMAIN"]}.infura-ipfs.io/ipfs/`;
 
 export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null)
@@ -26,7 +40,7 @@ export default function CreateItem() {
           progress: (prog) => console.log(`received: ${prog}`)
         }
       )
-      const url = `https://ipfs.infura.io/ipfs/${added.path}`
+      const url = `${IPFSGateway}${added.path}`
       setFileUrl(url)
     } catch (error) {
       console.log('Error uploading file: ', error)
@@ -44,7 +58,7 @@ export default function CreateItem() {
       })
       try {
         const added = await client.add(data)
-        const url = `https://ipfs.infura.io/ipfs/${added.path}`
+        const url = `${IPFSGateway}${added.path}`
         // after metadata is uploaded to IPFS, return the URL to use it in the transaction
         return url
       } catch (error) {
