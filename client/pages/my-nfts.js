@@ -4,10 +4,8 @@ import axios from 'axios'
 import Web3Modal from 'web3modal'
 import { useRouter } from 'next/router'
 
-import Marketplace from '../contracts/optimism-contracts/Marketplace.json'
-import BoredPetsNFT from '../contracts/optimism-contracts/BoredPetsNFT.json'
-// import Marketplace from '../contracts/ethereum-contracts/Marketplace.json'
-// import BoredPetsNFT from '../contracts/ethereum-contracts/BoredPetsNFT.json'
+import Marketplace from '../contracts/optimism-contracts/Marketplace.json';
+import BoredPetsNFT from '../contracts/optimism-contracts/BoredPetsNFT.json';
 
 export default function MyAssets() {
   const [nfts, setNfts] = useState([])
@@ -67,8 +65,8 @@ export default function MyAssets() {
                 <div key={i} className="border shadow rounded-xl overflow-hidden">
                   <img src={nft.image} className="rounded" />
                   <div className="p-4">
-                    <p style={{ height: '64px' }} className="text-2xl font-semibold">{nft.name}</p>
-                    <div style={{ height: '70px', overflow: 'hidden' }}>
+                    <p style={ { height: '64px' } } className="text-2xl font-semibold">{nft.name}</p>
+                    <div style={ { height: '70px', overflow: 'hidden' } }>
                       <p className="text-gray-400">{nft.description}</p>
                     </div>
                   </div>

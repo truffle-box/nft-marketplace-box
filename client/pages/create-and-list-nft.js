@@ -1,16 +1,13 @@
 import { useState } from 'react'
 import Web3 from 'web3'
 import Web3Modal from 'web3modal'
-import { create as ipfsHttpClient } from 'ipfs-http-client'
 import { useRouter } from 'next/router'
-
+import { create as ipfsHttpClient } from 'ipfs-http-client'
 import Marketplace from '../contracts/optimism-contracts/Marketplace.json'
 import BoredPetsNFT from '../contracts/optimism-contracts/BoredPetsNFT.json'
-// import Marketplace from '../contracts/ethereum-contracts/Marketplace.json'
-// import BoredPetsNFT from '../contracts/ethereum-contracts/BoredPetsNFT.json'
 
 const projectId = process.env["NEXT_PUBLIC_IPFS_KEY"];
-const projectSecret = process.env["NEXT_PUBLIC_IPFS_SECRET"];
+const projectSecret = process.env["NEXT_PUBLIC_IPFS_PROJECT_ID"];
 const auth =
     'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
 
@@ -22,8 +19,6 @@ const client = ipfsHttpClient({
         authorization: auth,
     },
 });
-
-const IPFSGateway = `https://${process.env["NEXT_PUBLIC_IPFS_SUBDOMAIN"]}.infura-ipfs.io/ipfs/`;
 
 export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null)
@@ -40,7 +35,7 @@ export default function CreateItem() {
           progress: (prog) => console.log(`received: ${prog}`)
         }
       )
-      const url = `${IPFSGateway}${added.path}`
+      const url = `https://<DEDICATED_GATEWAY>.infura-ipfs.io/ipfs/${added.path}`
       setFileUrl(url)
     } catch (error) {
       console.log('Error uploading file: ', error)
@@ -58,7 +53,7 @@ export default function CreateItem() {
       })
       try {
         const added = await client.add(data)
-        const url = `${IPFSGateway}${added.path}`
+        const url = `https://<DEDICATED_GATEWAY>.infura-ipfs.io/ipfs/${added.path}`
         // after metadata is uploaded to IPFS, return the URL to use it in the transaction
         return url
       } catch (error) {
@@ -73,13 +68,13 @@ export default function CreateItem() {
     const web3 = new Web3(provider)
     const url = await uploadToIPFS()
     const networkId = await web3.eth.net.getId()
-    
+
     // Mint the NFT
     const boredPetsContractAddress = BoredPetsNFT.networks[networkId].address
     const boredPetsContract = new web3.eth.Contract(BoredPetsNFT.abi, boredPetsContractAddress)
     const accounts = await web3.eth.getAccounts()
     const marketPlaceContract = new web3.eth.Contract(Marketplace.abi, Marketplace.networks[networkId].address)
-    let listingFee = await marketPlaceContract.methods.getListingFee().call()
+    let listingFee = await marketPlaceContract.methods.LISTING_FEE().call()
     listingFee = listingFee.toString()
     boredPetsContract.methods.mint(url).send({ from: accounts[0] }).on('receipt', function (receipt) {
         console.log('minted');

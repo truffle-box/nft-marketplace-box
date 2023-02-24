@@ -6,8 +6,6 @@ import Web3Modal from 'web3modal'
 
 import Marketplace from '../contracts/optimism-contracts/Marketplace.json'
 import BoredPetsNFT from '../contracts/optimism-contracts/BoredPetsNFT.json'
-// import Marketplace from '../contracts/ethereum-contracts/Marketplace.json'
-// import BoredPetsNFT from '../contracts/ethereum-contracts/BoredPetsNFT.json'
 
 export default function ResellNFT() {
   const [formInput, updateFormInput] = useState({ price: '', image: '' })
@@ -35,12 +33,11 @@ export default function ResellNFT() {
         const web3 = new Web3(provider)
         const networkId = await web3.eth.net.getId()
         const marketPlaceContract = new web3.eth.Contract(Marketplace.abi, Marketplace.networks[networkId].address)
-        let listingFee = await marketPlaceContract.methods.getListingFee().call()
+        let listingFee = await marketPlaceContract.methods.LISTING_FEE().call()
         listingFee = listingFee.toString()
         const accounts = await web3.eth.getAccounts()
         marketPlaceContract.methods.resellNft(BoredPetsNFT.networks[networkId].address, id, Web3.utils.toWei(formInput.price, "ether"))
             .send({ from: accounts[0], value: listingFee }).on('receipt', function () {
-                console.log('listed')
                 router.push('/')
             });
     }

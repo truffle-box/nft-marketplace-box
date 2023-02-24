@@ -5,15 +5,13 @@ import axios from 'axios';
 
 import Marketplace from '../contracts/optimism-contracts/Marketplace.json'
 import BoredPetsNFT from '../contracts/optimism-contracts/BoredPetsNFT.json'
-// import Marketplace from '../contracts/ethereum-contracts/Marketplace.json'
-// import BoredPetsNFT from '../contracts/ethereum-contracts/BoredPetsNFT.json'
 
 export default function Home() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
-  
+
   useEffect(() => { loadNFTs() }, [])
-  
+
   async function loadNFTs() {
     const web3Modal = new Web3Modal()
     const provider = await web3Modal.connect()
@@ -64,15 +62,15 @@ export default function Home() {
   } else {
     return (
       <div className="flex justify-center">
-        <div className="px-4" style={{ maxWidth: '1600px' }}>
+        <div className="px-4" style={ { maxWidth: '1600px' } }>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
             {
               nfts.map((nft, i) => (
                 <div key={i} className="border shadow rounded-xl overflow-hidden">
                   <img src={nft.image} />
                   <div className="p-4">
-                    <p style={{ height: '64px' }} className="text-2xl font-semibold">{nft.name}</p>
-                    <div style={{ height: '70px', overflow: 'hidden' }}>
+                    <p style={ { height: '64px' } } className="text-2xl font-semibold">{nft.name}</p>
+                    <div style={ { height: '70px', overflow: 'hidden'  } }>
                       <p className="text-gray-400">{nft.description}</p>
                     </div>
                   </div>

@@ -3,10 +3,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Web3Modal from 'web3modal';
 
-import Marketplace from '../contracts/optimism-contracts/Marketplace.json'
-import BoredPetsNFT from '../contracts/optimism-contracts/BoredPetsNFT.json'
-// import Marketplace from '../contracts/ethereum-contracts/Marketplace.json'
-// import BoredPetsNFT from '../contracts/ethereum-contracts/BoredPetsNFT.json'
+import Marketplace from '../contracts/optimism-contracts/Marketplace.json';
+import BoredPetsNFT from '../contracts/optimism-contracts/BoredPetsNFT.json';
 
 export default function CreatorDashboard() {
   const [nfts, setNfts] = useState([])
